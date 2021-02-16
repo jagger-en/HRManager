@@ -114,4 +114,7 @@ public class Employee implements Serializable {
 
     }
 
+	public void setEmployeeCode(String string) {
+	}
+
 }

@@ -7,6 +7,7 @@ import com.pineapple.palapa.model.Employee;
 import com.pineapple.palapa.repo.EmployeeRepo;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EmployeeService {
@@ -18,6 +19,7 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee) {
+        employee.setEmployeeCode(UUID.randomUUID().toString());
         return employeeRepo.save(employee);
     }
 
@@ -25,19 +27,20 @@ public class EmployeeService {
         return employeeRepo.findAll();
     }
 
-    public void deleteEmployee(Long id){
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepo.save(employee);
+    }
+
+    
+     public Employee findEmployeeById(Long id) {
+        return employeeRepo.findEmployeeById(id)
+             .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
+     }
+
+     public void deleteEmployee(Long id){
         Employee employee = employeeRepo.findById(id)
             .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
         employeeRepo.delete(employee);
-        // employeeRepo.deleteEmployeeById(id);
+         employeeRepo.deleteEmployeeById(id);
     }
-
-    // public Employee updateEmployee(Employee employee) {
-    //     return employeeRepo.save(employee);
-    // }
-
-    // public Employee findEmployeeById(Long id) {
-    //     return employeeRepo.findEmployeeById(id)
-    //         .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
-    // }
 }
